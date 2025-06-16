@@ -14,7 +14,7 @@ utils = { version = "0.1.0", path = "../utils" }
 async-trait = "0.1.80"
 bincode = "2"
 chrono = { version = "0.4.31", features = ["serde"] }
-dashmap = "5.5.3"
+dashmap = "6"
 futures = "0.3.30"
 nanoid = "0.4.0"
 rdkafka = { version = "0.36.2" }

@@ -13,7 +13,7 @@ utils = { version = "0.1.0", path = "../utils" }
 anyhow = "1.0.81"
 axum = { version = "0.7.4", features = ["ws"] }
 bincode = "2"
-dashmap = "5.5.3"
+dashmap = "6"
 futures = "0.3.30"
 jsonwebtoken = "9"
 nanoid = "0.4.0"
