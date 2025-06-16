@@ -1,6 +1,7 @@
 mod load_seq;
+mod migrate;
 
-use clap::{command, Arg};
+use clap::{command, Arg, ArgAction};
 use tracing::{error, info};
 use tracing_subscriber::fmt::format::Writer;
 use tracing_subscriber::fmt::time::FormatTime;
@@ -40,6 +41,12 @@ async fn main() {
                 .default_value(DEFAULT_CONFIG_PATH)
                 .help("Set the configuration path"),
         )
+        .arg(
+            Arg::new("migrate-messages")
+                .long("migrate-messages")
+                .action(ArgAction::SetTrue)
+                .help("Migrate messages from single collection to sharded collections"),
+        )
         .get_matches();
     let default_config = DEFAULT_CONFIG_PATH.to_string();
     let configuration = matches
@@ -69,6 +76,18 @@ async fn main() {
             .with_timer(LocalTimer)
             .init();
     }
+
+    // 检查是否需要执行消息迁移
+    if matches.get_flag("migrate-messages") {
+        info!("Starting message migration process");
+        if let Err(e) = migrate::run_migration(config).await {
+            error!("Migration failed: {:?}", e);
+            std::process::exit(1);
+        }
+        info!("Migration completed successfully");
+        return;
+    }
+
     // check if redis need to load seq
     load_seq(&config).await;
 

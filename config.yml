@@ -16,6 +16,10 @@ db:
     user:
     password:
     database: im
+    # 启用分片消息存储
+    use_sharding: true
+    # 用户ID分片数量（默认为10）
+    user_shards: 10
     clean:
       period: 3600 # days
       except_types:
@@ -84,7 +88,7 @@ rpc:
       - grpc
     grpc_health_check:
       grpc_use_tls: false
-      interval: 30 # second
+      interval: 30000 # second
   chat:
     protocol: http
     host: 127.0.0.1

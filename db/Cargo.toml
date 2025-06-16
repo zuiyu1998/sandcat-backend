@@ -29,3 +29,8 @@ tonic = { version = "0.11.0", features = ["gzip"] }
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 synapse = { git = "https://github.com/Xu-Mj/synapse.git", branch = "main" }
+clap = { version = "4.4", features = ["derive"] }
+
+[[bin]]
+name = "benchmark_sharding"
+path = "src/benchmarks/benchmark_sharding.rs"

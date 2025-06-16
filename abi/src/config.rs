@@ -250,6 +250,12 @@ pub struct MongoDbConfig {
     pub password: String,
     pub database: String,
     pub clean: CleanReceiveBox,
+    /// 是否启用分片消息存储
+    #[serde(default)]
+    pub use_sharding: Option<bool>,
+    /// 用户ID分片数量
+    #[serde(default)]
+    pub user_shards: Option<u32>,
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
