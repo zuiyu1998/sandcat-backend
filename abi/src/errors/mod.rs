@@ -10,6 +10,8 @@ use std::fmt;
 use tonic::Status;
 use tracing::error;
 
+pub type Result<T> = std::result::Result<T, Error>;
+
 #[derive(Debug, Serialize)]
 pub enum ErrorKind {
     UnknownError,
@@ -380,8 +382,14 @@ where
     }
 }
 
-impl From<bincode::Error> for Error {
-    fn from(value: bincode::Error) -> Self {
+impl From<bincode::error::DecodeError> for Error {
+    fn from(value: bincode::error::DecodeError) -> Self {
+        Self::new(ErrorKind::BinCode, value.to_string(), value)
+    }
+}
+
+impl From<bincode::error::EncodeError> for Error {
+    fn from(value: bincode::error::EncodeError) -> Self {
         Self::new(ErrorKind::BinCode, value.to_string(), value)
     }
 }

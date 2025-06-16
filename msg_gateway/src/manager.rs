@@ -43,7 +43,7 @@ impl Manager {
     }
 
     pub async fn send_group(&self, obj_ids: Vec<GroupMemSeq>, mut msg: Msg) {
-        self.send_to_self(&msg.send_id, &msg).await;
+        self.send_to_self(&msg.sender_id, &msg).await;
 
         // set send sequence to 0
         msg.send_seq = 0;
@@ -68,7 +68,7 @@ impl Manager {
                 PlatformType::Mobile
             };
             if let Some(sender) = client.get(&platform) {
-                let content = match bincode::serialize(msg) {
+                let content = match bincode::encode_to_vec(msg, bincode::config::standard()) {
                     Ok(res) => res,
                     Err(_) => {
                         error!("msg serialize error");
@@ -86,14 +86,14 @@ impl Manager {
         if let Some(clients) = self.hub.get(obj_id) {
             self.send_msg_to_clients(&clients, msg).await;
         }
-        self.send_to_self(&msg.send_id, msg).await;
+        self.send_to_self(&msg.sender_id, msg).await;
     }
 
     async fn send_msg_to_clients(&self, clients: &DashMap<PlatformType, Client>, msg: &Msg) {
         match clients.len() {
             0 => error!("no client found"),
             1 => {
-                let content = match bincode::serialize(msg) {
+                let content = match bincode::encode_to_vec(msg, bincode::config::standard()) {
                     Ok(res) => res,
                     Err(e) => {
                         error!("msg serialize error: {}", e);
@@ -107,7 +107,7 @@ impl Manager {
                 }
             }
             2 => {
-                let content = match bincode::serialize(msg) {
+                let content = match bincode::encode_to_vec(msg, bincode::config::standard()) {
                     Ok(res) => res,
                     Err(e) => {
                         error!("msg serialize error: {}", e);
@@ -162,7 +162,7 @@ impl Manager {
 
             // reply send result
             debug!("reply message:{:?}", message);
-            self.send_single_msg(&message.send_id, &message).await;
+            self.send_single_msg(&message.sender_id, &message).await;
         }
     }
 
@@ -171,7 +171,7 @@ impl Manager {
         //  we do not operate the database here about saving send sequence
         // we do that in the consumer module
         // even if the increment fails, it is not a problem
-        match self.cache.incr_send_seq(&message.send_id).await {
+        match self.cache.incr_send_seq(&message.sender_id).await {
             Ok((seq, _, _)) => message.send_seq = seq,
             Err(e) => {
                 self.create_error_message(message, e);

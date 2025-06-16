@@ -52,12 +52,29 @@ impl DbRepo {
     }
 }
 
+/// 创建消息接收盒子仓库，根据配置选择适当的实现
 pub async fn msg_rec_box_repo(config: &Config) -> Arc<dyn MsgRecBoxRepo> {
-    Arc::new(mongodb::MsgBox::from_config(config).await)
+    // 检查是否启用了分片
+    if let Some(true) = config.db.mongodb.use_sharding {
+        // 获取分片数，默认为10
+        let user_shards = config.db.mongodb.user_shards.unwrap_or(10) as u8;
+        info!("Using sharded message box with {} user shards", user_shards);
+        Arc::new(mongodb::HybridShardedMsgBox::from_config(config, user_shards).await)
+    } else {
+        info!("Using legacy message box (non-sharded)");
+        Arc::new(mongodb::MsgBox::from_config(config).await)
+    }
 }
 
+/// 创建消息清理器，根据配置选择适当的实现
 pub async fn msg_rec_box_cleaner(config: &Config) -> Arc<dyn MsgRecBoxCleaner> {
-    Arc::new(mongodb::MsgBox::from_config(config).await)
+    // 保持与消息盒子相同的实现选择
+    if let Some(true) = config.db.mongodb.use_sharding {
+        let user_shards = config.db.mongodb.user_shards.unwrap_or(10) as u8;
+        Arc::new(mongodb::HybridShardedMsgBox::from_config(config, user_shards).await)
+    } else {
+        Arc::new(mongodb::MsgBox::from_config(config).await)
+    }
 }
 
 pub async fn clean_receive_box(config: &Config) {
