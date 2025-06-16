@@ -271,7 +271,8 @@ impl ConsumerService {
     }
 
     async fn handle_msg_read(&self, msg: Msg) -> Result<(), Error> {
-        let data: MsgRead = bincode::deserialize(&msg.content)?;
+        let (data, _): (MsgRead, usize) =
+            bincode::decode_from_slice(&msg.content, bincode::config::standard())?;
 
         self.msg_box.msg_read(&data.user_id, &data.msg_seq).await?;
         Ok(())
@@ -306,7 +307,8 @@ impl ConsumerService {
                 .remove_group_member_id(&msg.receiver_id, &msg.sender_id)
                 .await?;
         } else if msg.msg_type == MsgType::GroupRemoveMember as i32 {
-            let data: Vec<String> = bincode::deserialize(&msg.content)?;
+            let (data, _): (Vec<String>, usize) =
+                bincode::decode_from_slice(&msg.content, bincode::config::standard())?;
 
             let member_ids_ref: Vec<&str> = data.iter().map(AsRef::as_ref).collect();
             self.cache

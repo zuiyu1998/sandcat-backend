@@ -68,7 +68,7 @@ impl Manager {
                 PlatformType::Mobile
             };
             if let Some(sender) = client.get(&platform) {
-                let content = match bincode::serialize(msg) {
+                let content = match bincode::encode_to_vec(msg, bincode::config::standard()) {
                     Ok(res) => res,
                     Err(_) => {
                         error!("msg serialize error");
@@ -93,7 +93,7 @@ impl Manager {
         match clients.len() {
             0 => error!("no client found"),
             1 => {
-                let content = match bincode::serialize(msg) {
+                let content = match bincode::encode_to_vec(msg, bincode::config::standard()) {
                     Ok(res) => res,
                     Err(e) => {
                         error!("msg serialize error: {}", e);
@@ -107,7 +107,7 @@ impl Manager {
                 }
             }
             2 => {
-                let content = match bincode::serialize(msg) {
+                let content = match bincode::encode_to_vec(msg, bincode::config::standard()) {
                     Ok(res) => res,
                     Err(e) => {
                         error!("msg serialize error: {}", e);

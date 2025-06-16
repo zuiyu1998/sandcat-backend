@@ -22,7 +22,7 @@ axum-streams = { version = "0.14", features = [
     "text",
 ] }
 base64 = "0.22.0"
-bincode = "1.3.3"
+bincode = "2"
 chrono = "0.4.37"
 futures = "0.3"
 hyper = "1.2.0"

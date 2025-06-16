@@ -4,7 +4,7 @@
 /// / the content is sustain, when message type is Hangup
 /// / the content is String::to_vec(), when message type is SingleMsg/GroupMsg
 /// / other message type, the content is bincode::serialize(&T)
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -55,7 +55,7 @@ pub struct Msg {
     #[prost(int64, tag = "17")]
     pub send_seq: i64,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -65,7 +65,7 @@ pub struct MsgContent {
     #[prost(message, optional, tag = "2")]
     pub mention: ::core::option::Option<Mention>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -75,7 +75,7 @@ pub struct Mention {
     #[prost(string, repeated, tag = "2")]
     pub user_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -85,7 +85,7 @@ pub struct MsgRead {
     #[prost(string, tag = "2")]
     pub user_id: ::prost::alloc::string::String,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -97,7 +97,7 @@ pub struct Candidate {
     #[prost(int32, optional, tag = "3")]
     pub sdp_m_index: ::core::option::Option<i32>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -105,7 +105,7 @@ pub struct AgreeSingleCall {
     #[prost(string, tag = "1")]
     pub sdp: ::prost::alloc::string::String,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -113,7 +113,7 @@ pub struct SingleCallInvite {
     #[prost(enumeration = "SingleCallInviteType", tag = "1")]
     pub invite_type: i32,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -123,7 +123,7 @@ pub struct SingleCallInviteAnswer {
     #[prost(enumeration = "SingleCallInviteType", tag = "2")]
     pub invite_type: i32,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -131,7 +131,7 @@ pub struct SingleCallInviteNotAnswer {
     #[prost(enumeration = "SingleCallInviteType", tag = "1")]
     pub invite_type: i32,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -139,7 +139,7 @@ pub struct SingleCallInviteCancel {
     #[prost(enumeration = "SingleCallInviteType", tag = "2")]
     pub invite_type: i32,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -147,7 +147,7 @@ pub struct SingleCallOffer {
     #[prost(string, tag = "1")]
     pub sdp: ::prost::alloc::string::String,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -161,7 +161,7 @@ pub struct Hangup {
 /// / message ws is used to connect the client by websocket;
 /// / and it receive message from clients; then send message to mq;
 /// / so only provide the send message function for other rpc service;
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -173,7 +173,7 @@ pub struct Single {
     #[prost(enumeration = "ContentType", tag = "3")]
     pub content_type: i32,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -188,7 +188,7 @@ pub struct MsgResponse {
     pub err: ::prost::alloc::string::String,
 }
 /// / user platform which login the system
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
@@ -217,7 +217,7 @@ impl PlatformType {
     }
 }
 /// / message content type
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
@@ -270,7 +270,7 @@ impl ContentType {
     }
 }
 /// / friendship status
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[derive(
     sqlx::Type, Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
@@ -315,7 +315,7 @@ impl FriendshipStatus {
         }
     }
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
@@ -436,7 +436,7 @@ impl MsgType {
         }
     }
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
@@ -464,7 +464,7 @@ impl SingleCallInviteType {
         }
     }
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[derive(
     sqlx::Type, Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
@@ -498,7 +498,7 @@ impl GroupMemberRole {
     }
 }
 /// GroupInfo
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -539,7 +539,7 @@ pub struct GroupInfo {
     pub pinned_messages: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// GroupMember
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -577,7 +577,7 @@ pub struct GroupMember {
     #[prost(string, tag = "16")]
     pub joined_by: ::prost::alloc::string::String,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -587,7 +587,7 @@ pub struct GroupInvitation {
     #[prost(message, repeated, tag = "2")]
     pub members: ::prost::alloc::vec::Vec<GroupMember>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -599,7 +599,7 @@ pub struct GroupInviteNew {
     #[prost(string, repeated, tag = "3")]
     pub members: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -617,7 +617,7 @@ pub struct GroupUpdate {
     #[prost(int64, tag = "6")]
     pub update_time: i64,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -705,7 +705,7 @@ pub struct User {
     #[prost(bool, tag = "31")]
     pub is_delete: bool,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -735,7 +735,7 @@ pub struct UserWithMatchType {
     #[prost(bool, tag = "12")]
     pub is_friend: bool,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -763,7 +763,7 @@ pub struct Friendship {
     #[prost(int64, tag = "11")]
     pub update_time: i64,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -797,7 +797,7 @@ pub struct FriendshipWithUser {
     #[prost(string, optional, tag = "14")]
     pub email: ::core::option::Option<::prost::alloc::string::String>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -845,7 +845,7 @@ pub struct Friend {
     #[prost(int64, tag = "21")]
     pub last_interaction: i64,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -869,7 +869,7 @@ pub struct FriendInfo {
     #[prost(string, optional, tag = "9")]
     pub email: ::core::option::Option<::prost::alloc::string::String>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -885,7 +885,7 @@ pub struct FsCreate {
     #[prost(string, tag = "5")]
     pub source: ::prost::alloc::string::String,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -897,7 +897,7 @@ pub struct AgreeReply {
     #[prost(string, optional, tag = "3")]
     pub resp_remark: ::core::option::Option<::prost::alloc::string::String>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -909,7 +909,7 @@ pub struct FsUpdate {
     #[prost(string, tag = "3")]
     pub req_remark: ::prost::alloc::string::String,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -920,7 +920,7 @@ pub struct GetGroupAndMembersResp {
     pub members: ::prost::alloc::vec::Vec<GroupMember>,
 }
 /// HTTP API 请求/响应结构
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -936,7 +936,7 @@ pub struct PullOfflineRequest {
     #[prost(int64, tag = "5")]
     pub rec_end: i64,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -990,7 +990,7 @@ pub struct FriendDb {
     #[prost(bool, tag = "18")]
     pub notifications_enabled: bool,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -998,12 +998,12 @@ pub struct MsgReadReq {
     #[prost(message, optional, tag = "1")]
     pub msg_read: ::core::option::Option<MsgRead>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct MsgReadResp {}
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1013,7 +1013,7 @@ pub struct UserAndGroupId {
     #[prost(string, tag = "2")]
     pub group_id: ::prost::alloc::string::String,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1031,7 +1031,7 @@ pub struct GroupCategory {
     #[prost(int64, tag = "6")]
     pub update_time: i64,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1059,7 +1059,7 @@ pub struct GroupFile {
     #[prost(string, tag = "11")]
     pub thumbnail_url: ::prost::alloc::string::String,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1073,7 +1073,7 @@ pub struct PollOption {
     #[prost(int32, tag = "4")]
     pub vote_count: i32,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1099,7 +1099,7 @@ pub struct GroupPoll {
     #[prost(string, tag = "10")]
     pub status: ::prost::alloc::string::String,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1119,7 +1119,7 @@ pub struct GroupMuteRecord {
     #[prost(int64, tag = "7")]
     pub created_at: i64,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1137,7 +1137,7 @@ pub struct GroupAnnouncement {
     #[prost(bool, tag = "6")]
     pub is_pinned: bool,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1149,7 +1149,7 @@ pub struct CreateGroupCategoryRequest {
     #[prost(int32, tag = "3")]
     pub display_order: i32,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1179,7 +1179,7 @@ pub struct UpdateGroupRequest {
     #[prost(string, repeated, tag = "12")]
     pub tags: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1199,7 +1199,7 @@ pub struct GroupFileUploadRequest {
     #[prost(string, tag = "7")]
     pub file_url: ::prost::alloc::string::String,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1219,7 +1219,7 @@ pub struct CreatePollRequest {
     #[prost(int64, tag = "7")]
     pub expires_at: i64,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1231,7 +1231,7 @@ pub struct VotePollRequest {
     #[prost(string, repeated, tag = "3")]
     pub option_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1247,7 +1247,7 @@ pub struct MuteGroupMemberRequest {
     #[prost(string, tag = "5")]
     pub reason: ::prost::alloc::string::String,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1261,7 +1261,7 @@ pub struct CreateAnnouncementRequest {
     #[prost(bool, tag = "4")]
     pub is_pinned: bool,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1277,7 +1277,7 @@ pub struct GroupCreate {
     #[prost(string, repeated, tag = "5")]
     pub members_id: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1295,7 +1295,7 @@ pub struct FriendGroup {
     #[prost(int64, tag = "6")]
     pub update_time: i64,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1307,7 +1307,7 @@ pub struct UpdateFriendGroupRequest {
     #[prost(string, tag = "3")]
     pub group_id: ::prost::alloc::string::String,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1323,7 +1323,7 @@ pub struct FriendTag {
     #[prost(int64, tag = "5")]
     pub create_time: i64,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1337,7 +1337,7 @@ pub struct ManageFriendTagRequest {
     #[prost(bool, tag = "4")]
     pub is_add: bool,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1355,7 +1355,7 @@ pub struct FriendPrivacySettings {
     #[prost(bool, tag = "6")]
     pub share_status: bool,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1363,7 +1363,7 @@ pub struct UpdateFriendPrivacyRequest {
     #[prost(message, optional, tag = "1")]
     pub settings: ::core::option::Option<FriendPrivacySettings>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1375,7 +1375,7 @@ pub struct UpdateRemarkRequest {
     #[prost(string, tag = "3")]
     pub remark: ::prost::alloc::string::String,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1387,7 +1387,7 @@ pub struct DeleteFriendRequest {
     #[prost(string, tag = "3")]
     pub fs_id: ::prost::alloc::string::String,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1399,7 +1399,7 @@ pub struct RemoveMemberRequest {
     #[prost(string, repeated, tag = "3")]
     pub mem_id: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1407,7 +1407,7 @@ pub struct GroupMembersIdRequest {
     #[prost(string, tag = "1")]
     pub group_id: ::prost::alloc::string::String,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1415,7 +1415,7 @@ pub struct SendMsgRequest {
     #[prost(message, optional, tag = "1")]
     pub message: ::core::option::Option<Msg>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1425,12 +1425,12 @@ pub struct SendGroupMsgRequest {
     #[prost(message, repeated, tag = "2")]
     pub members: ::prost::alloc::vec::Vec<GroupMemSeq>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SendMsgResponse {}
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1440,7 +1440,7 @@ pub struct SaveMessageRequest {
     #[prost(bool, tag = "2")]
     pub need_to_history: bool,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1452,7 +1452,7 @@ pub struct SaveGroupMsgRequest {
     #[prost(message, repeated, tag = "3")]
     pub members: ::prost::alloc::vec::Vec<GroupMemSeq>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1466,7 +1466,7 @@ pub struct GroupMemSeq {
     #[prost(bool, tag = "4")]
     pub need_update: bool,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1478,7 +1478,7 @@ pub struct GetDbMsgRequest {
     #[prost(int64, tag = "3")]
     pub end: i64,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1494,7 +1494,7 @@ pub struct GetDbMessagesRequest {
     #[prost(int64, tag = "5")]
     pub end: i64,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1504,7 +1504,7 @@ pub struct DelMsgRequest {
     #[prost(int64, repeated, tag = "2")]
     pub msg_id: ::prost::alloc::vec::Vec<i64>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1516,7 +1516,7 @@ pub struct GetMemberReq {
     #[prost(string, repeated, tag = "3")]
     pub mem_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1524,12 +1524,12 @@ pub struct GroupInviteNewRequest {
     #[prost(message, optional, tag = "1")]
     pub group_invite: ::core::option::Option<GroupInviteNew>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RemoveMemberResp {}
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1537,7 +1537,7 @@ pub struct GroupInviteNewResp {
     #[prost(message, repeated, tag = "1")]
     pub members: ::prost::alloc::vec::Vec<GroupMember>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1545,7 +1545,7 @@ pub struct GroupUpdateRequest {
     #[prost(message, optional, tag = "1")]
     pub group: ::core::option::Option<GroupUpdate>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1553,7 +1553,7 @@ pub struct GroupUpdateResponse {
     #[prost(message, optional, tag = "1")]
     pub group: ::core::option::Option<GroupInfo>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1563,7 +1563,7 @@ pub struct GroupDeleteRequest {
     #[prost(string, tag = "2")]
     pub user_id: ::prost::alloc::string::String,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1571,12 +1571,12 @@ pub struct GroupDeleteResponse {
     #[prost(message, optional, tag = "1")]
     pub group: ::core::option::Option<GroupInfo>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GroupMemberExitResponse {}
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1584,7 +1584,7 @@ pub struct GroupMembersIdResponse {
     #[prost(string, repeated, tag = "1")]
     pub members_id: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1592,7 +1592,7 @@ pub struct CreateUserRequest {
     #[prost(message, optional, tag = "1")]
     pub user: ::core::option::Option<User>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1600,7 +1600,7 @@ pub struct CreateUserResponse {
     #[prost(message, optional, tag = "1")]
     pub user: ::core::option::Option<User>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1608,7 +1608,7 @@ pub struct GetUserRequest {
     #[prost(string, tag = "1")]
     pub user_id: ::prost::alloc::string::String,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1616,7 +1616,7 @@ pub struct GetUserByEmailRequest {
     #[prost(string, tag = "1")]
     pub email: ::prost::alloc::string::String,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1624,7 +1624,7 @@ pub struct GetUserResponse {
     #[prost(message, optional, tag = "1")]
     pub user: ::core::option::Option<User>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1632,7 +1632,7 @@ pub struct UpdateUserRequest {
     #[prost(message, optional, tag = "1")]
     pub user: ::core::option::Option<UserUpdate>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1640,7 +1640,7 @@ pub struct UpdateUserResponse {
     #[prost(message, optional, tag = "1")]
     pub user: ::core::option::Option<User>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1650,12 +1650,12 @@ pub struct UpdateRegionRequest {
     #[prost(string, tag = "2")]
     pub region: ::prost::alloc::string::String,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct UpdateRegionResponse {}
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1665,7 +1665,7 @@ pub struct SearchUserRequest {
     #[prost(string, tag = "2")]
     pub pattern: ::prost::alloc::string::String,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1673,7 +1673,7 @@ pub struct SearchUserResponse {
     #[prost(message, optional, tag = "1")]
     pub user: ::core::option::Option<UserWithMatchType>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1681,7 +1681,7 @@ pub struct FsCreateRequest {
     #[prost(message, optional, tag = "1")]
     pub fs_create: ::core::option::Option<FsCreate>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1691,7 +1691,7 @@ pub struct FsCreateResponse {
     #[prost(message, optional, tag = "2")]
     pub fs_send: ::core::option::Option<FriendshipWithUser>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1699,7 +1699,7 @@ pub struct FsAgreeRequest {
     #[prost(message, optional, tag = "1")]
     pub fs_reply: ::core::option::Option<AgreeReply>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1709,17 +1709,17 @@ pub struct FsAgreeResponse {
     #[prost(message, optional, tag = "2")]
     pub send: ::core::option::Option<Friend>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct UpdateRemarkResponse {}
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DeleteFriendResponse {}
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1727,7 +1727,7 @@ pub struct FsUpdateRequest {
     #[prost(message, optional, tag = "1")]
     pub fs_update: ::core::option::Option<FsUpdate>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1737,7 +1737,7 @@ pub struct FriendListRequest {
     #[prost(int64, tag = "2")]
     pub offline_time: i64,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1745,7 +1745,7 @@ pub struct FsListResponse {
     #[prost(message, repeated, tag = "1")]
     pub friendships: ::prost::alloc::vec::Vec<FriendshipWithUser>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1753,7 +1753,7 @@ pub struct FriendListResponse {
     #[prost(message, repeated, tag = "1")]
     pub friends: ::prost::alloc::vec::Vec<Friend>,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1763,7 +1763,7 @@ pub struct ClosePollRequest {
     #[prost(string, tag = "2")]
     pub user_id: ::prost::alloc::string::String,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1775,7 +1775,7 @@ pub struct UpdateFilePinRequest {
     #[prost(bool, tag = "3")]
     pub is_pinned: bool,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1787,7 +1787,7 @@ pub struct UnmuteRequest {
     #[prost(string, tag = "3")]
     pub operator_id: ::prost::alloc::string::String,
 }
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]
 #[serde(rename_all = "camelCase")]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]

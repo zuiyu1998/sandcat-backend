@@ -315,8 +315,8 @@ impl ConnectionTasks {
                             continue;
                         }
 
-                        match bincode::deserialize(&b) {
-                            Ok(msg) => {
+                        match bincode::decode_from_slice(&b, bincode::config::standard()) {
+                            Ok((msg, _)) => {
                                 if hub.broadcast(msg).await.is_err() {
                                     break;
                                 }

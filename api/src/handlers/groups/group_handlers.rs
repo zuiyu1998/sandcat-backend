@@ -101,7 +101,7 @@ pub async fn create_group_handler(
         .await?;
 
     let mut chat_rpc = app_state.chat_rpc.clone();
-    let msg = bincode::serialize(&invitation)?;
+    let msg = bincode::encode_to_vec(&invitation, bincode::config::standard())?;
 
     // increase the send sequence for sender
     let (seq, _, _) = app_state.cache.incr_send_seq(&user_id).await?;
@@ -140,7 +140,7 @@ pub async fn invite_new_members(
 
     let mut chat_rpc = app_state.chat_rpc.clone();
 
-    let msg = bincode::serialize(&members)?;
+    let msg = bincode::encode_to_vec(&members, bincode::config::standard())?;
 
     // increase the send sequence for sender
     let (seq, _, _) = app_state.cache.incr_send_seq(&user_id).await?;
@@ -163,7 +163,7 @@ pub async fn update_group_handler(
     // let mut members = app_state.cache.query_group_members_id(&inner.id).await?;
     let mut chat_rpc = app_state.chat_rpc.clone();
     // notify members, except self
-    let msg = bincode::serialize(&group_info)?;
+    let msg = bincode::encode_to_vec(&group_info, bincode::config::standard())?;
 
     // increase the send sequence for sender
     let (seq, _, _) = app_state.cache.incr_send_seq(&user_id).await?;
@@ -187,7 +187,7 @@ pub async fn remove_member(
 
     // send remove message to group members
     let mut chat_rpc = app_state.chat_rpc.clone();
-    let msg = bincode::serialize(&req_cloned.mem_id)?;
+    let msg = bincode::encode_to_vec(&req_cloned.mem_id, bincode::config::standard())?;
 
     // increase the send sequence for sender
     let (seq, _, _) = app_state.cache.incr_send_seq(&req_cloned.user_id).await?;
@@ -256,7 +256,7 @@ pub async fn update_group_settings(
 
     // 通知群组成员
     let mut chat_rpc = app_state.chat_rpc.clone();
-    let msg = bincode::serialize(&group_info)?;
+    let msg = bincode::encode_to_vec(&group_info, bincode::config::standard())?;
 
     // 增加发送序列
     let (seq, _, _) = app_state.cache.incr_send_seq(&user_id).await?;
@@ -327,7 +327,7 @@ pub async fn upload_group_file(
 
     // 通知群组成员
     let mut chat_rpc = app_state.chat_rpc.clone();
-    let msg = bincode::serialize(&file)?;
+    let msg = bincode::encode_to_vec(&file, bincode::config::standard())?;
 
     // 增加发送序列
     let (seq, _, _) = app_state.cache.incr_send_seq(&req.uploader_id).await?;
@@ -384,7 +384,7 @@ pub async fn create_poll(
 
     // 通知群组成员
     let mut chat_rpc = app_state.chat_rpc.clone();
-    let msg = bincode::serialize(&poll)?;
+    let msg = bincode::encode_to_vec(&poll, bincode::config::standard())?;
 
     let user_id = req.creator_id.clone();
     let group_id = req.group_id.clone();
@@ -443,7 +443,7 @@ pub async fn mute_group_member(
 
     // 通知群组成员
     let mut chat_rpc = app_state.chat_rpc.clone();
-    let msg = bincode::serialize(&record)?;
+    let msg = bincode::encode_to_vec(&record, bincode::config::standard())?;
 
     // 增加发送序列
     let (seq, _, _) = app_state.cache.incr_send_seq(&req.operator_id).await?;
@@ -492,7 +492,7 @@ pub async fn create_announcement(
 
     // 通知群组成员
     let mut chat_rpc = app_state.chat_rpc.clone();
-    let msg = bincode::serialize(&announcement)?;
+    let msg = bincode::encode_to_vec(&announcement, bincode::config::standard())?;
 
     // 增加发送序列
     let (seq, _, _) = app_state.cache.incr_send_seq(&req.creator_id).await?;

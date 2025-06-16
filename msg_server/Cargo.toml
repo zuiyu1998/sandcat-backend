@@ -12,7 +12,7 @@ db = { version = "0.1.0", path = "../db" }
 utils = { version = "0.1.0", path = "../utils" }
 
 async-trait = "0.1.80"
-bincode = "1"
+bincode = "2"
 chrono = { version = "0.4.31", features = ["serde"] }
 dashmap = "5.5.3"
 futures = "0.3.30"

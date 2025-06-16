@@ -43,8 +43,11 @@ impl BuilderExt for tonic_build::Builder {
 
     fn with_serde(self, path: &[&str]) -> Self {
         path.iter().fold(self, |acc, path| {
-            acc.type_attribute(path, "#[derive(serde::Serialize, serde::Deserialize)]")
-                .type_attribute(path, "#[serde(rename_all = \"camelCase\")]")
+            acc.type_attribute(
+                path,
+                "#[derive(serde::Serialize, serde::Deserialize, bincode::Encode, bincode::Decode)]",
+            )
+            .type_attribute(path, "#[serde(rename_all = \"camelCase\")]")
         })
     }
 }

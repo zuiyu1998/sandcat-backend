@@ -58,7 +58,7 @@ pub async fn create_friendship(
     let (fs_req, fs_send) = app_state.db.friend.create_fs(new_friend).await?;
 
     // decode fs
-    let fs = bincode::serialize(&fs_send)?;
+    let fs = bincode::encode_to_vec(&fs_send, bincode::config::standard())?;
 
     // increase send sequence
     let (cur_seq, _, _) = app_state.cache.incr_send_seq(&fs_send.user_id).await?;
@@ -85,7 +85,7 @@ pub async fn agree(
 
     let sender_id = send.friend_id.clone();
     // decode friend
-    let friend = bincode::serialize(&send)?;
+    let friend = bincode::encode_to_vec(&send, bincode::config::standard())?;
 
     // increase send sequence
     let (cur_seq, _, _) = app_state.cache.incr_send_seq(&sender_id).await?;
